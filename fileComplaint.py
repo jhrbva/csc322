@@ -3,7 +3,7 @@ from file import *
 class File_Complaint(File):
 
     #class attribute
-    complaint = "file"
+    complaint = "File Complaint"
     
     #initializer
     def __init__(self, complaint_date, complaint_id, file_id, complaint_author, complaint_text):
