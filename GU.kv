@@ -1,0 +1,192 @@
+<MyButton@Button>:
+
+<FileLabel>:
+    Button:
+        text: '1234'
+        on_press: root.testC()
+    Button:
+        text:'21'
+
+<Test>:
+    canvas:
+        Color:
+            rgba: 0.3, 0.3, 0.3, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: rv
+    rv1:rv1
+    fileList: fileList
+    userNameLabel: userNameLabel
+
+    orientation: 'vertical'
+
+    GridLayout:
+        height: dp(36)
+        size_hint_y:None
+        spacing:dp(16)
+        rows: 1
+        spacing:dp(8)
+        Button:
+            text:'File'
+            on_press:optionChoic.current='file'
+            on_press:root.changeUserName()
+        Button:
+            text:'Taboo Word'
+            on_press:optionChoic.current='taboo'
+        Button:
+            text:'Apply for OU'
+            on_press:optionChoic.current='membership'
+        Button:
+            text:'Complaints'
+            on_press:optionChoic.current='complaints'
+        Label:
+            id:userNameLabel
+            text: 'Yannis'
+
+    ScreenManager:
+        id: optionChoic
+        Screen:
+            name: 'file'
+            BoxLayout:
+                orientation:'vertical'
+                GridLayout:
+                    cols: 3
+                    rows: 2
+                    size_hint_y: None
+                    height: dp(108)
+                    padding: dp(8)
+                    spacing: dp(16)
+
+                    BoxLayout:
+                        spacing: dp(8)
+                        Button:
+                            text: 'File'
+                            on_press: root.populate()
+
+                    Button:
+                        text: 'Sort list'
+                        on_press: root.sort()
+                    Button:
+                        text: 'Clear list'
+                        on_press: root.clear()
+
+                RecycleView:
+                    id: fileList
+                    data:[]
+                    scroll_type: ['bars', 'content']
+                    scroll_wheel_distance: dp(114)
+                    bar_width: dp(10)
+                    viewclass: 'FileLabel'
+                    RecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        spacing: dp(2)
+        Screen:
+            name:'membership'
+            BoxLayout:
+                orientation:'vertical'
+                GridLayout:
+                    rows:1
+                    cols:1
+                    height:dp(36)
+                    padding:dp(8)
+                    Button:
+                        text:'OU Application'
+
+        Screen:
+            name:'taboo'
+            BoxLayout:
+                orientation:'vertical'
+
+                GridLayout:
+                    cols: 2
+                    rows: 1
+                    size_hint_y: None
+                    height: dp(60)
+                    padding: dp(8)
+                    spacing: dp(16)
+                    Button:
+                        text:'Taboo List'
+                    Button:
+                        text:'Suggest List'
+
+                RecycleView:
+                    id: rv
+                    data:[]
+                    scroll_type: ['bars', 'content']
+                    scroll_wheel_distance: dp(114)
+                    bar_width: dp(10)
+                    viewclass: 'MyButton'
+                    RecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        spacing: dp(2)
+
+        Screen:
+            name:'membership'
+            BoxLayout:
+                orientation:'vertical'
+                GridLayout:
+                    rows:1
+                    cols:3
+                    height:dp(36)
+                    padding:dp(8)
+                    Button:
+                        text:'OU list'
+                    Button:
+                        text:'OU Application'
+                    Button:
+                        text:'Invite OU'
+
+        Screen:
+            name:'complaints'
+            BoxLayout:
+                orientation:'vertical'
+
+                GridLayout:
+                    height: dp(36)
+                    size_hint_y:None
+                    rows: 1
+                    spacing:dp(8)
+                    BoxLayout:
+                        spacing: dp(8)
+                        TextInput:
+                            id: update_item_input
+                            size_hint_x: 0.8
+                            hint_text: 'new value'
+                            multiline: False
+                            padding: dp(10), dp(10), 0, 0
+                        Button:
+                            text: 'Search'
+                            on_press:root.setRV()
+                    Label:
+                        text:'Text'
+                        on_touch_down: root.doubleclick(*args)
+
+                RecycleView:
+                    id: rv1
+                    data:[]
+                    scroll_type: ['bars', 'content']
+                    scroll_wheel_distance: dp(114)
+                    bar_width: dp(10)
+                    viewclass: 'MyLabel'
+                    RecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        spacing: dp(2)
+
+<MyLabel@Label>:
+    text:root.data.text
+
+
+
