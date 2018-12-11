@@ -57,7 +57,7 @@ kv = Builder.load_string("""
         Button:
             pos_hint: {"x": .5, 'y':.45}
             text: "Login"
-            on_release: root.login()
+            on_release: 
                 
 
 """)
