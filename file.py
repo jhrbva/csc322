@@ -26,6 +26,7 @@ class File:
     # update text in file
     def text_update(self, new_text):
         self.text = new_text
+        self.history = self.history + 1
 
     #instance method
     def file_information(self):
@@ -46,7 +47,6 @@ class File:
 my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1)
 print('First version of file:')
 print(my_file.file_information())
-my_file.version_history('forward')
 my_file.text_update('My file is so much better now that I updated the text')
 print('Modified version of file:')
 print(my_file.file_information())
