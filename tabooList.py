@@ -1,4 +1,4 @@
-import os
+from collections import OrderedDict
 
 class Taboo_List():
 
@@ -51,17 +51,16 @@ class Taboo_List():
 
     # taboo word text scanner
     def text_scanner(self):
-        """ I help scan files to find taboo words and delete them from text """
-        with open(self.tabooList_file) as file1, open(self.system_file) as file2:
-            for line in set(line.strip() for line in file1).intersection(line.strip() for line in file2):
-                if line: 
-                    print(line)
-                    line = line.replace(line, '**')
-                    
-                    with open(self.system_file, 'w') as file:
-                        file.write(line)
+        """ I help scan strings to find taboo words and delete them from text """
+        file_text = self.system_file.lower().split()
+        bad_words = self.tabooList_file.split()
+
+        clean_file = list(set(file_text).difference(set(bad_words)))
+        print(clean_file)
+
+        return clean_file
 
 #testing
-tabooWord = Taboo_List("tabooList.txt", "idiot", "testFile.txt").text_scanner()
-tabooWord = Taboo_List("tabooList.txt", "idiot", "testFile.txt").add_or_delete()
+tabooWord = Taboo_List("jackass shit asswhole bastard", "idiot", "hello you bastard nice to meet you jackass").text_scanner()
+#tabooWord = Taboo_List("tabooList.txt", "idiot", "testFile.txt").add_or_delete()
 
