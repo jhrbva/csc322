@@ -10,7 +10,7 @@ class Taboo_List():
     # write method
     def add_word(self):
         """ I add words to the Taboo List """
-        word = raw_input("Enter the taboo word: ")
+        word = input("Enter the taboo word: ")
         with open(self.file_name, "a+") as f:
             f.write(word + '\n')
 
@@ -19,7 +19,7 @@ class Taboo_List():
     #delete method
     def remove_word(self):
         """ I remove words to the Taboo List """
-        word = raw_input("Enter the taboo word: ")
+        word = input("Enter the taboo word: ")
         # Read in the file
         with open(self.file_name, 'r') as file :
             filedata = file.read()
@@ -36,7 +36,7 @@ class Taboo_List():
     #decision making
     def add_or_delete(self):
         """ I help decide if the user will add or delete a taboo word from the list """
-        user_action = raw_input("Type A to add the word to the list, type R to remove the word from the list: ")
+        user_action = input("Type A to add the word to the list, type R to remove the word from the list: ")
 
         if user_action == "A":
             self.add_word()
@@ -45,4 +45,4 @@ class Taboo_List():
        
 #testing
 tabooWord = Taboo_List("tabooList.txt", "")
-tabooWord.add_or_delete()
+
