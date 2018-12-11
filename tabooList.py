@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 class Taboo_List():
 
     # initializer (tabooList_file = "tabooList.txt", system_file = any file in the system, will use "testFile.txt" for this)
@@ -55,8 +53,8 @@ class Taboo_List():
         file_text = self.system_file.lower().split()
         bad_words = self.tabooList_file.split()
 
-        clean_file = list(set(file_text).difference(set(bad_words)))
-        print(clean_file)
+        clean_list = list(set(file_text).difference(set(bad_words)))
+        clean_file = ' '.join(clean_list)
 
         return clean_file
 
