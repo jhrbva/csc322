@@ -20,11 +20,19 @@
 
 <FileLabel>:
     user:''
+    name:''
+    author:''
     Button:
         text: root.user
         on_press: root.testC()
     Button:
         text:'21'
+
+
+<SUselection@GridLayout>:
+
+
+
 
 <Test>:
     canvas:
@@ -65,7 +73,7 @@
         Label:
             id:userNameLabel
             text: 'ROng'
-
+ 
     ScreenManager:
         id: optionChoic
         Screen:
@@ -73,62 +81,113 @@
             BoxLayout:
                 orientation:'vertical'
                 GridLayout:
-                    cols: 3
-                    rows: 2
-                    size_hint_y: None
-                    height: dp(108)
-                    padding: dp(8)
-                    spacing: dp(16)
-
-                    BoxLayout:
-                        spacing: dp(8)
-                        Button:
-                            text: 'File'
-                            on_press: root.populate()
-                        Button:
-                            text: 'Create File'
-                            size_hint_x: 0.5
-
+                    height: dp(36)
+                    spacing:dp(16)
+                    size_hint_y:None
+                    rows: 1
+                    spacing:dp(8)
+                    cols:3
                     Button:
-                        text: 'Sort list'
-                        on_press: root.sort()
+                        text: 'File'
+                        size_hint:.2,1
+                        on_press: fileChoices.current='SfileL'
                     Button:
-                        text: 'Clear list'
-                        on_press: root.clear()
-
-                    BoxLayout:
-                        spacing: dp(8)
-                        Button:
-                            text: 'Insert new item'
-                            on_press: root.insert(new_item_input.text)
-                        TextInput:
-                            id: new_item_input
-                            size_hint_x: 0.6
-                            hint_text: 'value'
-                            padding: dp(10), dp(10), 0, 0
-
-                    BoxLayout:
-                        spacing: dp(8)
-                        Button:
-                            text: 'Update first item'
-                            on_press: root.populate()
-                        TextInput:
-                            id: update_item_input
-                            size_hint_x: 0.6
-                            hint_text: 'new value'
-                            padding: dp(10), dp(10), 0, 0
+                        size_hint:.2,1
+                        text: 'Create File'
+                        on_press: fileChoices.current='create File'
                     Button:
-                        text: 'Remove first item'
-                        on_press: root.remove()
+                        size_hint:.2,1
+                        text: 'edit file'
+                        on_press: fileChoices.current='edit file'
 
-                RecycleView:
-                    id: fileList
-                    data:[]
-                    scroll_type: ['bars', 'content']
-                    scroll_wheel_distance: dp(114)
-                    bar_width: dp(10)
-                    viewclass: 'FileLabel'
-                    RVL:
+                ScreenManager:
+                    id:fileChoices
+                    Screen:
+                        name: 'SfileL'
+                        BoxLayout:
+                            orientation:'vertical'
+                            BoxLayout:
+                                height: dp(36)
+                                size_hint_y:None
+                                spacing:dp(16)
+                                spacing:dp(8)
+                                Widget:
+                                TextInput:
+                                    pos_hint: {'center_x': 0.5}
+                                    size_hint_x: 1
+                                Widget:
+
+                                    
+                                
+                            RecycleView:
+                                id: fileList
+                                data:[]
+                                scroll_type: ['bars', 'content']
+                                scroll_wheel_distance: dp(114)
+                                bar_width: dp(10)
+                                viewclass: 'FileLabel'
+                                RVL:
+
+                    Screen:
+                        name: 'create file'
+                        GridLayout:
+                            height: dp(36)
+                            size_hint_y:None
+                            spacing:dp(16)
+                            rows: 1
+                            spacing:dp(8)
+                            Button:
+                                text:'File'
+                                on_press:optionChoic.current='file'
+                                on_press:root.changeUserName()
+                            Button:
+                                text:'Tatco Word'
+                                on_press:optionChoic.current='tacto'
+                                on_press:root.taboInit()
+                            Button:
+                                text:'Membership'
+                                on_press:optionChoic.current='membership'            
+                            Button:
+                                text:'Complaints'
+                                on_press:optionChoic.current='complaints'
+                            Label:
+                                id:userNameLabel
+                                text: 'ROng'
+                    Screen:
+                        name: 'edit file'
+                        BoxLayout:
+                            spacing: dp(8)
+                            Button:
+                                text: 'Insert new item'
+                                on_press: root.insert(new_item_input.text)
+                            TextInput:
+                                id: new_item_input
+                                size_hint_x: 0.6
+                                hint_text: 'value'
+                                padding: dp(10), dp(10), 0, 0
+
+                        BoxLayout:
+                            spacing: dp(8)
+                            Button:
+                                text: 'Update first item'
+                                on_press: root.populate()
+                            TextInput:
+                                id: update_item_input
+                                size_hint_x: 0.6
+                                hint_text: 'new value'
+                                padding: dp(10), dp(10), 0, 0
+                            Button:
+                                text: 'Remove first item'
+                                on_press: root.remove()
+
+                        RecycleView:
+                            id: fileList
+                            data:[]
+                            scroll_type: ['bars', 'content']
+                            scroll_wheel_distance: dp(114)
+                            bar_width: dp(10)
+                            viewclass: 'FileLabel'
+                            RVL:
 
         Screen:
             name:'tacto'
