@@ -7,7 +7,7 @@ class File:
     file_visibility = ['private', 'shared', 'public']
     
     # initializer
-    def __init__(self, file_id, title, author, date, visibility, friend_list, history, locked):
+    def __init__(self, file_id, title, author, date, visibility, friend_list, history, locked, text):
         self.file_id = file_id
         self.title = title
         self.author = author
@@ -16,7 +16,7 @@ class File:
         self.friend_list = friend_list
         self.currenth = len(history)
         self.history = history
-        self.text = history[len(history)-]
+        self.text = history[len(history)-1]
         self.locked = locked
 
     #instance method
@@ -55,17 +55,6 @@ class File:
     # lock and unlock file
     def lock_unlock(self, lock):
         self.locked = not True
-
-    # method to reads files from the database 
-    def read_file(self):
-        #assume the user is looking for file id 123
-        id = '123'
-        version = '2'
-        with open('csvexample.csv', newline='') as myFile:  
-            reader = csv.DictReader(myFile)
-            for row in reader:
-                if row['id'] == id and row['version'] == version :
-                    print(row)
                
     # method to save file to the db
     def save_file(self):
@@ -85,11 +74,11 @@ class File:
 #for file visibility : 0 = private, 1 = shared, 2 = public
 
 #create two files
-my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
-my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
+#my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
+#my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
 #add both files to the db
-my_file.save_file()
-my_file2.save_file()
+#my_file.save_file()
+#my_file2.save_file()
 #change the text in my_file
 #my_file.lock_unlock(False)
 #add file with new text and updated version to db
@@ -99,13 +88,12 @@ my_file2.save_file()
 def read_file():
     #assume the user is looking for file id 123 and version 1
     id = '123'
-    version = '1'
-    print("I'm here")
+    new_text = "New text right here"
     with open('csvexample.csv', newline='') as myFile:  
         reader = csv.DictReader(myFile)
         for row in reader:
-            if row['id'] == id and row['version'] == version :
-                print(row)
+            if row['id'] == id :
+                row['text'] = new_text
 
 #look for a file in the db and print the file once found. The example is looking for file id = 123
 read_file()
