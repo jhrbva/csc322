@@ -1,0 +1,70 @@
+<EditFIleScreen>:
+    name: 'edit file'
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint_y:None
+            height:dp(36)
+            spacing: dp(8)
+            orientation:'horizontal'
+            cols:4
+            GridLayout:
+                cols:3
+                Button:
+                    text:'<-'
+                Label:
+                    id: fileVer
+                    text:'0'
+                Button:
+                    text:'->'
+            GridLayout:
+                cols:2
+                Button:
+                    text:'invite'
+                Button:
+                    text:'lock'
+            GridLayout:
+                cols:1
+                Button:
+                    text:'complant'
+            GridLayout:
+                cols:1
+                Button:
+                    text:'save'    
+                    on_press:root.ok()
+
+        GridLayout:
+            cols:2
+            rows:1
+            TextInput:
+                size_hint: .8,1
+                id: filetext
+                on_text: root.changetext()
+            BoxLayout:
+                size_hint_x:.2
+                orientation:'vertical'
+                Label:
+                    text:'title'
+                Label:
+                    id: fileAuthor
+                    text:'on'
+                Label:
+                    text:'author'
+                Label:
+                    text:'author'
+                Label:
+                    id: filelock
+                    text:'lock'
+                Label:
+                    text:'--------'    
+                Label:
+                    text:'Friend List'
+
+                RecycleView:
+                    id: friendList
+                    data:[]
+                    scroll_type: ['bars', 'content']
+                    scroll_wheel_distance: dp(114)
+                    bar_width: dp(10)
+                    viewclass: 'Label'
+                    RVL:
