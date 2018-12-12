@@ -1,0 +1,161 @@
+
+<FileScreen@Screen>:
+    name: 'file'
+    BoxLayout:
+        orientation:'vertical'
+        GridLayout:
+            height: dp(36)
+            spacing:dp(16)
+            size_hint_y:None
+            rows: 1
+            spacing:dp(8)
+            cols:4
+            Button:
+                text: 'File'
+                size_hint:.2,1
+                on_press: fileChoices.current='SfileL'
+            Button:
+                size_hint:.2,1
+                text: 'Create File'
+                on_press: fileChoices.current='createFile'
+            Button:
+                size_hint:.2,1
+                text: 'edit file'
+                on_press: root.initEfile()
+                on_release: fileChoices.current='edit file'
+
+
+        ScreenManager:
+            id:fileChoices
+            Screen:
+                name: 'SfileL'
+                BoxLayout:
+                    orientation:'vertical'
+                    BoxLayout:
+                        height: dp(36)
+                        size_hint_y:None
+                        spacing:dp(16)
+                        spacing:dp(8)
+                        Widget:
+                        TextInput:
+                            pos_hint: {'center_x': 0.5}
+                            size_hint_x: 1
+                        Widget:
+
+                    FileListRVLabel:
+
+                    FileListRV:
+                        id:fileListRv
+                        data:[]
+
+            Screen:
+                name: 'createFile'
+                GridLayout:
+                    orientation:'vertical'
+                    rows:6
+                    Widget:
+                    GridLayout:
+                        orientation:'horizontal'
+                        cols:4
+                        Widget:
+                        Label:
+                            text: 'Title'
+                            halign:'left'
+                        TextInput:
+                            id: fileTitle
+                            multiline: False
+                        Widget:
+                    GridLayout:
+                        orientation:'horizontal'
+                        cols:4
+                        Widget:
+                        Label:
+                            text: 'Visibility'
+                            halign:'left'
+                        TextInput:
+                            id: vb
+                            multiline: False
+                        Widget:
+                    GridLayout:
+                        orientation:'horizontal'
+                        cols:3
+                        Widget:
+                        Button:
+                            size_hint_y:None
+                            text: "Login"
+                        Widget:
+                    Widget:
+                    Widget:
+
+            Screen:
+                name: 'edit file'
+                BoxLayout:
+                    orientation:'vertical'
+                    BoxLayout:
+                        size_hint_y:None
+                        height:dp(36)
+                        spacing: dp(8)
+                        orientation:'horizontal'
+                        cols:4
+                        GridLayout:
+                            cols:3
+                            Button:
+                                text:'<-'
+                                on_press:root.changeV('back')
+                            Label:
+                                id: fileVer
+                                text: '0'
+                            Button:
+                                text:'->'
+                                on_press:root.changeV('forward')
+                        GridLayout:
+                            cols:2
+                            Button:
+                                text:'invite'
+                            Button:
+                                text:'lock'
+                        GridLayout:
+                            cols:1
+                            Button:
+                                text:'complant'
+                        GridLayout:
+                            cols:1
+                            Button:
+                                text:'save'
+                                on_press:root.saveH()
+
+                    GridLayout:
+                        cols:2
+                        rows:1
+                        TextInput:
+                            size_hint: .8,1
+                            id: filetext
+                            on_text: root.changetext()
+                        BoxLayout:
+                            size_hint_x:.2
+                            orientation:'vertical'
+                            Label:
+                                text:'title'
+                            Label:
+                                id: fileAuthor
+                                text:'on'
+                            Label:
+                                text:'author'
+                            Label:
+                                text:'author'
+                            Label:
+                                id: filelock
+                                text:'lock'
+                            Label:
+                                text:'--------'    
+                            Label:
+                                text:'Friend List'
+
+                            RecycleView:
+                                id: friendList
+                                data:[]
+                                scroll_type: ['bars', 'content']
+                                scroll_wheel_distance: dp(114)
+                                bar_width: dp(10)
+                                viewclass: 'Label'
+                                RVL:

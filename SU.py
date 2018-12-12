@@ -5,13 +5,17 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
+import datetime
+import file
+
+my_file = file.File(123, "My File", "Julia", datetime.date.today(),2,["Yannis",'sdsa','asdsadsa'],["This is the text in my file","2","3","4"],True)
+my_file.file_information()
 
 #for matching
 import re
 
 userName = 'Rong'
-
-
 
 
 # usage for file choice
@@ -21,13 +25,46 @@ class FileListL(GridLayout):
         if touch.is_double_tap:
             print("hi")
 
+#edit file
+
+class membership(Screen):
+
+
+
+
+class FileScreen(Screen):
+
+    def setFileListRV(self):
+        self.ids['fileListRv'].data = [{'visibility':'wtf','title':'i dont know','author':'wentom'}]
+        print(self.ids['fileListRv'].data)
+        self.ids['fileListRv'].refresh_from_data()
+
+    def initEfile(self):
+        self.ids['fileAuthor'].text = my_file.title
+        self.ids['filelock'].text = 'Lock' if my_file.lock else 'Unlock'
+        self.ids['friendList'].data = [{ 'text': item} for item in my_file.friend_list]
+        self.ids['fileVer'].text = str(my_file.history)
+        self.ids['filetext'].text = my_file.text
+
+    def saveH(self):
+        my_file.save()
+        self.ids['fileVer'].text = str(my_file.history)
+
+    def changetext(self):
+        my_file.text_update(self.ids['filetext'].text)
+        print(my_file.text)
+
+    def changeV(self,way):
+        my_file.version_history(way)
+        self.ids['filetext'].text = my_file.text
+        self.ids['fileVer'].text = str(my_file.history)
 
 
 
 
 #for tabo usage
 suggestTaboList = ['1','2','3','2','3','2','3','2','3']
-taboList = ['physics', 'chemistry', '1997', '2000',"a", "b", "c", "d"]
+taboList = ['physics',  'chemistry', '1997', '2000',"a", "b", "c", "d"]
 selectedTabo=[]
 
 def renewtabo(TL,STL):
@@ -52,8 +89,6 @@ class MyTaboButton(Button):
             selectedTabo.append(self.text)
         print(selectedTabo)
     pass
-
-
 
 
 
@@ -103,11 +138,6 @@ class Test(BoxLayout):
         self.rv1.refresh_from_data()
 
     #file list function??
-
-    def setFileListRV(self):
-        self.ids['fileListRv'].data = [{'visibility':'wtf','title':'i dont know','author':'wentom'}]
-        print(self.ids['fileListRv'].data)
-        self.ids['fileListRv'].refresh_from_data()
 
 
     #taboo list funciton-----------------------
@@ -161,6 +191,7 @@ class Test(BoxLayout):
 
 class TestApp(App):
     def build(self):
+        self.load_kv('editfileScreen.kv')
         self.load_kv('SU.kv')
         return Test()
 
