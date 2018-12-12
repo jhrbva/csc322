@@ -4,12 +4,27 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.gridlayout import GridLayout
 
 #for matching
 import re
 
-
 userName = 'Rong'
+
+
+
+
+# usage for file choice
+class FileListL(GridLayout):
+
+    def openFile(self,but,touch):
+        if touch.is_double_tap:
+            print("hi")
+
+
+
+
+
 #for tabo usage
 suggestTaboList = ['1','2','3','2','3','2','3','2','3']
 taboList = ['physics', 'chemistry', '1997', '2000',"a", "b", "c", "d"]
@@ -51,6 +66,8 @@ class FileLabel(BoxLayout):
 
 
 
+
+
 class Test(BoxLayout):
 
     def doubleclick(self,but,touch):
@@ -85,9 +102,15 @@ class Test(BoxLayout):
         self.rv1.data = [{'user':'wtf','title':'i dont know','author':'wentom'}]
         self.rv1.refresh_from_data()
 
+    #file list function??
+
+    def setFileListRV(self):
+        self.ids['fileListRv'].data = [{'visibility':'wtf','title':'i dont know','author':'wentom'}]
+        print(self.ids['fileListRv'].data)
+        self.ids['fileListRv'].refresh_from_data()
 
 
-    #taboo list funciton
+    #taboo list funciton-----------------------
     def taboInit(self):
         self.taboL.data = [{ 'data': item} for item in taboList]
         self.sugTaboL.data = [{ 'data': item} for item in suggestTaboList]
@@ -119,9 +142,6 @@ class Test(BoxLayout):
         tmp = self.ids['searchTaboTI'].text
         tmpt = []
         tmps = []
-        print(tmp)
-        print(tmpt)
-        print(tmps)
         if tmp :
             for item in taboList: 
                 if re.match(tmp,item):
@@ -135,6 +155,7 @@ class Test(BoxLayout):
         else:
             self.taboL.data = [{ 'data': item,'selected':False} for item in taboList]
             self.sugTaboL.data = [{ 'data': item,'selected':False} for item in suggestTaboList]
+    #tabo -------------------------------
         
 
 

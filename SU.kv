@@ -1,5 +1,13 @@
 <MyButton>:
 
+<Label>
+    height:dp(36)
+    size_hint_y:None
+
+<TextInput>
+    height:dp(36)
+    font_size:"20sp"
+    size_hint_y:None
 
 <MyTaboButton>:
     selected: False
@@ -7,6 +15,50 @@
     text:self.data
     background_color: (0, 0, 0, 1) if self.selected else  (1.0, 0.0, 0.0, 1.0)
     on_press: root.select()
+
+# file list RV----------------
+
+<FileListRVLabel@GridLayout>:
+    height: dp(36)
+    size_hint_y:None
+    spacing:dp(8)
+    cols:3    
+
+    Label:
+        size_hint: 0.2, 1
+        text:'visibillity'
+    Label:
+        size_hint: 0.3, 1
+        text:'author'
+    Label:
+        size_hint: 0.5, 1
+        text:'title'
+
+<FileListL>:
+    cols:3
+    visibility:''
+    title:''
+    author:''
+    fileid:''
+    on_touch_down: root.openFile(*args)
+    Label:
+        size_hint: 0.2, 1
+        text:root.visibility
+    Label:
+        size_hint: 0.3, 1
+        text:root.author
+    Label:
+        size_hint: 0.5, 1
+        text:root.title
+    
+
+<FileListRV@RecycleView>:
+    scroll_type: ['bars', 'content']
+    scroll_wheel_distance: dp(114)
+    bar_width: dp(10)
+    viewclass: 'FileListL'
+    RVL:
+#-----------------------
 
 
 <RVL@RecycleBoxLayout>:
@@ -16,6 +68,8 @@
     height: self.minimum_height
     orientation: 'vertical'
     spacing: dp(2)
+
+
 
 
 <FileLabel>:
@@ -59,7 +113,7 @@
         Button:
             text:'File'
             on_press:optionChoic.current='file'
-            on_press:root.changeUserName()
+            on_press:root.setFileListRV()
         Button:
             text:'Tatco Word'
             on_press:optionChoic.current='tacto'
@@ -72,7 +126,7 @@
             on_press:optionChoic.current='complaints'
         Label:
             id:userNameLabel
-            text: 'ROng'
+            text: 'Rong'
  
     ScreenManager:
         id: optionChoic
@@ -86,7 +140,7 @@
                     size_hint_y:None
                     rows: 1
                     spacing:dp(8)
-                    cols:3
+                    cols:4
                     Button:
                         text: 'File'
                         size_hint:.2,1
@@ -94,7 +148,7 @@
                     Button:
                         size_hint:.2,1
                         text: 'Create File'
-                        on_press: fileChoices.current='create File'
+                        on_press: fileChoices.current='createFile'
                     Button:
                         size_hint:.2,1
                         text: 'edit file'
@@ -117,77 +171,114 @@
                                     size_hint_x: 1
                                 Widget:
 
-                                    
-                                
-                            RecycleView:
-                                id: fileList
+                            FileListRVLabel:
+
+                            FileListRV:
+                                id:fileListRv
                                 data:[]
-                                scroll_type: ['bars', 'content']
-                                scroll_wheel_distance: dp(114)
-                                bar_width: dp(10)
-                                viewclass: 'FileLabel'
-                                RVL:
 
                     Screen:
-                        name: 'create file'
+                        name: 'createFile'
                         GridLayout:
-                            height: dp(36)
-                            size_hint_y:None
-                            spacing:dp(16)
-                            rows: 1
-                            spacing:dp(8)
-                            Button:
-                                text:'File'
-                                on_press:optionChoic.current='file'
-                                on_press:root.changeUserName()
-                            Button:
-                                text:'Tatco Word'
-                                on_press:optionChoic.current='tacto'
-                                on_press:root.taboInit()
-                            Button:
-                                text:'Membership'
-                                on_press:optionChoic.current='membership'            
-                            Button:
-                                text:'Complaints'
-                                on_press:optionChoic.current='complaints'
-                            Label:
-                                id:userNameLabel
-                                text: 'ROng'
+                            orientation:'vertical'
+                            rows:6
+                            Widget:
+                            GridLayout:
+                                orientation:'horizontal'
+                                cols:4
+                                Widget:
+                                Label:
+                                    text: 'Title'
+                                    halign:'left'
+                                TextInput:
+                                    id: fileTitle
+                                    multiline: False
+                                Widget:
+                            GridLayout:
+                                orientation:'horizontal'
+                                cols:4
+                                Widget:
+                                Label:
+                                    text: 'Visibility'
+                                    halign:'left'
+                                TextInput:
+                                    id: vb
+                                    multiline: False
+                                Widget:
+                            GridLayout:
+                                orientation:'horizontal'
+                                cols:3
+                                Widget:
+                                Button:
+                                    size_hint_y:None
+                                    text: "Login"
+                                Widget:
+                            Widget:
+                            Widget:
+
                     Screen:
                         name: 'edit file'
                         BoxLayout:
-                            spacing: dp(8)
-                            Button:
-                                text: 'Insert new item'
-                                on_press: root.insert(new_item_input.text)
-                            TextInput:
-                                id: new_item_input
-                                size_hint_x: 0.6
-                                hint_text: 'value'
-                                padding: dp(10), dp(10), 0, 0
+                            orientation:'vertical'
+                            BoxLayout:
+                                size_hint_y:None
+                                height:dp(36)
+                                spacing: dp(8)
+                                orientation:'horizontal'
+                                cols:4
+                                GridLayout:
+                                    cols:3
+                                    Button:
+                                        text:'<-'
+                                    Label:
+                                        text:'0'
+                                    Button:
+                                        text:'->'
+                                GridLayout:
+                                    cols:2
+                                    Button:
+                                        text:'invite'
+                                    Button:
+                                        text:'lock'
+                                GridLayout:
+                                    cols:1
+                                    Button:
+                                        text:'complant'
+                                GridLayout:
+                                    cols:1
+                                    Button:
+                                        text:'save'    
+             
+                            GridLayout:
+                                cols:2
+                                rows:1
+                                TextInput:
+                                    size_hint: .8,1
+                                BoxLayout:
+                                    size_hint_x:.2
+                                    orientation:'vertical'
+                                    Label:
+                                        text:'title'
+                                    Label:
+                                        text:'on'
+                                    Label:
+                                        text:'author'
+                                    Label:
+                                        text:'author'
+                                    Label:
+                                        text:'lock'
 
-                        BoxLayout:
-                            spacing: dp(8)
-                            Button:
-                                text: 'Update first item'
-                                on_press: root.populate()
-                            TextInput:
-                                id: update_item_input
-                                size_hint_x: 0.6
-                                hint_text: 'new value'
-                                padding: dp(10), dp(10), 0, 0
-                            Button:
-                                text: 'Remove first item'
-                                on_press: root.remove()
+                                    RecycleView:
+                                        id: rv1
+                                        data:[]
+                                        scroll_type: ['bars', 'content']
+                                        scroll_wheel_distance: dp(114)
+                                        bar_width: dp(10)
+                                        viewclass: 'MyLabel'
+                                        RVL:
+                                    
 
-                        RecycleView:
-                            id: fileList
-                            data:[]
-                            scroll_type: ['bars', 'content']
-                            scroll_wheel_distance: dp(114)
-                            bar_width: dp(10)
-                            viewclass: 'FileLabel'
-                            RVL:
+
 
         Screen:
             name:'tacto'
