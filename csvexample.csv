@@ -1,7 +1,5 @@
-id,title,text,author,date,visibility,friend_list,version
-123,My File,This is the text in my file,Julia,2018-12-11,shared,Yannis,1
-213,My Second File,This is the text in my second file,Julia,2018-12-11,shared,Ronno,1
-123,My File,This is the text in my file,Julia,2018-12-11,shared,Yannis,1
-123,My File,This is the text in my file,Julia,2018-12-11,shared,Yannis,1
-213,My Second File,This is the text in my second file,Julia,2018-12-11,shared,Ronno,1
-123,My File,This is the text in my file,Julia,2018-12-11,shared,Yannis,1
+id,title,author,date,visibility,friend_list,history,locked
+1,My File,safasfasf,Julia,2018-12-12,public,"['Yannis', 'sdsa', 'asdsadsa']","['This is the text in my file', '2', '3', '4', '', 'safasfasf']"
+2,My File,Julia,2018-12-12,public,"['Yannis', 'sdsa', 'asdsadsa']","['This is the text in my file', '2', '3', '4']",True
+3,0,Julia,2018-12-12,public,"['Yannis', 'sdsa', 'asdsadsa']","['This is the text in my file', '2', '3', '4']",False
+4,1,Julia,2018-12-12,public,"['Yannis', 'sdsa', 'asdsadsa']","['This is the text in my file', '2', '3', '4']",True

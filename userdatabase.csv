@@ -1,3 +1,6 @@
-id,type,username,filesvisited
-188,ordinary,juliaa,"123, 234"
-
+id,type,username,pwd,filesvisited
+188,1,juliaa,okok,"123, 234"
+1,guest,guest,guest
+2,ordinary,ordinary,o,o
+3,super,super,super
+0,admin,admin,admin,"['1312', '1231']"
