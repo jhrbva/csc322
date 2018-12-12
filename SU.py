@@ -7,10 +7,13 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 import datetime
-import file
+import file 
+import membership
 
 my_file = file.File(123, "My File", "Julia", datetime.date.today(),2,["Yannis",'sdsa','asdsadsa'],["This is the text in my file","2","3","4"],True)
 my_file.file_information()
+
+my_mem = membership.Membership(['l','i','a','d','e','f'],['i','f','yoo','ok'],['123','34543','789'])
 
 #for matching
 import re
@@ -28,6 +31,8 @@ class FileListL(GridLayout):
 #edit file
 
 class membership(Screen):
+    def addOu(self):
+        print("hi")
 
 
 
