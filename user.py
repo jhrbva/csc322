@@ -37,17 +37,17 @@ class User:
             writer = csv.writer(database)
             writer.writerows(user)
 
-    # method to reads user information from the database 
-    def find_user(self):
-        #assume that you are looking for user ID = 188
-        id = '188'
-        with open('userdatabase.csv', newline='') as myFile:  
-            reader = csv.DictReader(myFile)
-            for row in reader:
-                if row['id'] == id :
-                    print(row)
-
 #testing
 my_profile = User(188, 0, "juliaa", "password", "123, 234")
 my_profile.save_user()
-my_profile.find_user()
+
+# method to reads user information from the database 
+def find_user():
+    #assume that you are looking for user ID = 188
+    id = '188'
+    with open('userdatabase.csv', newline='') as myFile:  
+        reader = csv.DictReader(myFile)
+        for row in reader:
+            if row['id'] == id :
+                print(row)
+find_user()
