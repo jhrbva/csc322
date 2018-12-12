@@ -12,6 +12,12 @@ class User:
         self.username = username
         self.password = password
         self.files_visited = files_visited
+    def update(self, user_id,  user_type, username, password, files_visited):
+        self.user_id = user_id
+        self.user_type = user_type
+        self.username = username
+        self.password = password
+        self.files_visited = files_visited
         
     #instance method
     def user_information(self):
@@ -48,11 +54,11 @@ class User:
                     print(row)
 
 #testing
-my_user = User(999,'guest','guest','guest',[""])
-my_user.save_user()
-my_user = User(0,'admin','admin','admin',[""])
-my_user.save_user()
-my_user = User(1,'super','super','super',[""])
-my_user.save_user()
-my_user = User(2,'ordinay','o','o',[""])
-my_user.save_user()
+# my_user = User(999,'guest','guest','guest',[""])
+# my_user.save_user()
+# my_user = User(0,'admin','admin','admin',[""])
+# my_user.save_user()
+# my_user = User(1,'super','super','super',[""])
+# my_user.save_user()
+# my_user = User(2,'ordinay','o','o',[""])
+# my_user.save_user()

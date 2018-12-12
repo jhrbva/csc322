@@ -1,5 +1,6 @@
 import datetime
 import csv
+import ast
 
 class File:
 
@@ -25,9 +26,9 @@ class File:
         self.author = author
         self.date = date
         self.visibility = visibility
-        self.friend_list = friend_list
-        self.currenth = len(history)
-        self.history = history
+        self.friend_list = ast.literal_eval(friend_list)
+        self.history = ast.literal_eval(history)
+        self.currenth = len(self.history)
         self.text = history[(len(history)-1)]
         self.locked = locked
 
@@ -121,6 +122,8 @@ class File:
 # read_file()
 
 
-my_file = File(0, "", "", datetime.date.today(),'public',[],[""],False)
-
-print([{'fileid':f,'title':t,'author':a,'visibility':v} for f,t,a,v in my_file.read_file() ])
+my_file = File(0, "idd", "guest", datetime.date.today(),'public',[''],['idsadasd','dsadsad'],False)
+my_file.save_file()
+my_file = File(1, "ok", "user", datetime.date.today(),'public',[''],['idsadasd','2134'],False)
+my_file.save_file()
+#print([{'fileid':f,'title':t,'author':a,'visibility':v} for f,t,a,v in my_file.read_file() ])

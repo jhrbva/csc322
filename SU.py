@@ -143,11 +143,13 @@ class Test(GridLayout):
         self.ids['filetext'].text = my_file.text
 
     def saveH(self):
-        my_file.save()
-        self.ids['fileVer'].text = str(my_file.currenth)
+        if my_user.user_type!='guest':
+            my_file.save()
+            self.ids['fileVer'].text = str(my_file.currenth)
 
     def changetext(self):
-        my_file.text_update(self.ids['filetext'].text)
+        if my_user.user_type!='guest':
+            my_file.text_update(self.ids['filetext'].text)
         print(my_file.text)
 
     def changeV(self,way):
@@ -168,26 +170,38 @@ class Test(GridLayout):
     
     def removeTabo(self):
         if(len(selectedTabo)>0):
-            ntaboList = [elem for elem in taboList if elem not in selectedTabo]
+            if my_user.user_type!='guest':
+                ntaboList = [elem for elem in taboList if elem not in selectedTabo]
+            else:
+                ntaboList= taboList
             nsuggestTaboList = [elem for elem in suggestTaboList if elem not in selectedTabo]
             self.taboL.data = [{ 'data': item,'selected':False} for item in ntaboList]
             self.sugTaboL.data = [{ 'data': item,'selected':False} for item in nsuggestTaboList]
             renewtabo(ntaboList,nsuggestTaboList)  
 
     def acceptTabo(self):
-        if(len(selectedTabo)>0):
-            ntaboList = [elem for elem in taboList if elem not in selectedTabo] + selectedTabo
-            nsuggestTaboList = [elem for elem in suggestTaboList if elem not in selectedTabo]
-            self.taboL.data = [{ 'data': item,'selected':False} for item in ntaboList]
-            self.sugTaboL.data = [{ 'data': item,'selected':False} for item in nsuggestTaboList]
-            renewtabo(ntaboList,nsuggestTaboList)
+        if my_user.user_type!='guest':
+            if(len(selectedTabo)>0):
+                ntaboList = [elem for elem in taboList if elem not in selectedTabo] + selectedTabo
+                nsuggestTaboList = [elem for elem in suggestTaboList if elem not in selectedTabo]
+                self.taboL.data = [{ 'data': item,'selected':False} for item in ntaboList]
+                self.sugTaboL.data = [{ 'data': item,'selected':False} for item in nsuggestTaboList]
+                renewtabo(ntaboList,nsuggestTaboList)
 
     def addTabo(self):
-        if(self.ids['addTaboTI'].text):
-            tmp =self.ids['addTaboTI'].text
-            if(tmp not in taboList):
-                taboList.append(tmp)
-                self.taboL.data = [{ 'data': item,'selected':False} for item in taboList]
+
+        if my_user.user_type!='guest':
+            if(self.ids['addTaboTI'].text):
+                tmp =self.ids['addTaboTI'].text
+                if(tmp not in taboList):
+                    taboList.append(tmp)
+                    self.taboL.data = [{ 'data': item,'selected':False} for item in taboList]
+        else:
+            if(self.ids['addTaboTI'].text):
+                tmp =self.ids['addTaboTI'].text
+                if(tmp not in suggestTaboList):
+                    suggestTaboList.append(tmp)
+                    self.sugTaboL.data = [{ 'data': item,'selected':False} for item in suggestTaboList]
 
     def searchTaboL(self):
         tmp = self.ids['searchTaboTI'].text
