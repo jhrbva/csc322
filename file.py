@@ -46,10 +46,11 @@ class File:
     def read_file(self):
         #assume the user is looking for file id 123
         id = '123'
+        version = '2'
         with open('csvexample.csv', newline='') as myFile:  
             reader = csv.DictReader(myFile)
             for row in reader:
-                if row['id'] == id :
+                if row['id'] == id and row['version'] == version :
                     print(row)
                
     # method to save file to the db
@@ -66,21 +67,20 @@ class File:
             writer = csv.writer(database)
             writer.writerows(myfile)
 
-    def search_file(self) :
-        with open('csvexample.csv', newline='') as myFile:  
-            reader = csv.reader(myFile)
-            for row in reader:
-                print(row)
-
+    
 
 #testing
 #for file visibility : 0 = private, 1 = shared, 2 = public
 
+#create two files
 my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1)
-#print('First version of file:')
-#print(my_file.file_information())
-#my_file.text_update('My file is so much better now that I updated the text')
-#print('Modified version of file:')
-#print(my_file.file_information())
-my_file.read_file()
-#my_file.save_file()
+my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1)
+#add both files to the db
+my_file.save_file()
+my_file2.save_file()
+#look for a file in the db and print the file once found. The example is looking for file id = 123
+my_file2.read_file()
+#change the text in my_file
+my_file.text_update("New text, New text, New text!")
+#add file with new text and updated version to db
+my_file.save_file()
