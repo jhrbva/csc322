@@ -7,7 +7,7 @@ class File:
     file_visibility = ['private', 'shared', 'public']
     
     # initializer
-    def __init__(self, file_id, title, text, author, date, visibility, friend_list, history):
+    def __init__(self, file_id, title, text, author, date, visibility, friend_list, history, locked):
         self.file_id = file_id
         self.title = title
         self.text = text
@@ -16,6 +16,7 @@ class File:
         self.visibility = File.file_visibility[visibility]
         self.friend_list = friend_list
         self.history = history
+        self.locked = locked
 
     #instance method
     def file_information(self):
@@ -41,6 +42,14 @@ class File:
     def text_update(self, new_text):
         self.text = new_text
         self.history = self.history + 1
+
+    # lock and unlock file
+    def lock_unlock(self, lock):
+        if lock == True:
+            self.locked = True
+            self.text_update("New text, New text, New text!")
+        else:
+            print("File is locked. Cannot make changes")
 
     # method to reads files from the database 
     def read_file(self):
@@ -81,6 +90,6 @@ my_file2.save_file()
 #look for a file in the db and print the file once found. The example is looking for file id = 123
 my_file2.read_file()
 #change the text in my_file
-my_file.text_update("New text, New text, New text!")
+my_file.lock_unlock(False)
 #add file with new text and updated version to db
 my_file.save_file()
