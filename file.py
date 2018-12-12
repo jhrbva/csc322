@@ -50,17 +50,6 @@ class File:
             self.text_update("New text, New text, New text!")
         else:
             print("File is locked. Cannot make changes")
-
-    # method to reads files from the database 
-    def read_file(self):
-        #assume the user is looking for file id 123
-        id = '123'
-        version = '2'
-        with open('csvexample.csv', newline='') as myFile:  
-            reader = csv.DictReader(myFile)
-            for row in reader:
-                if row['id'] == id and row['version'] == version :
-                    print(row)
                
     # method to save file to the db
     def save_file(self):
@@ -76,20 +65,31 @@ class File:
             writer = csv.writer(database)
             writer.writerows(myfile)
 
-    
-
 #testing
 #for file visibility : 0 = private, 1 = shared, 2 = public
 
 #create two files
-my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1)
-my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1)
+my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
+my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
 #add both files to the db
 my_file.save_file()
 my_file2.save_file()
-#look for a file in the db and print the file once found. The example is looking for file id = 123
-my_file2.read_file()
 #change the text in my_file
-my_file.lock_unlock(False)
+#my_file.lock_unlock(False)
 #add file with new text and updated version to db
-my_file.save_file()
+#my_file.save_file()
+
+# method to reads files from the database 
+def read_file():
+    #assume the user is looking for file id 123 and version 1
+    id = '123'
+    version = '1'
+    print("I'm here")
+    with open('csvexample.csv', newline='') as myFile:  
+        reader = csv.DictReader(myFile)
+        for row in reader:
+            if row['id'] == id and row['version'] == version :
+                print(row)
+
+#look for a file in the db and print the file once found. The example is looking for file id = 123
+read_file()
