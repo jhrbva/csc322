@@ -88,12 +88,17 @@ class File:
 def read_file():
     #assume the user is looking for file id 123 and version 1
     id = '123'
-    new_text = "New text right here"
+
+    fields = ['id','title','text','author','date','visibility','friend_list','version']
+    fileWriter = open('csvexample.csv', 'a+') 
+    writer = csv.DictWriter(fileWriter, fieldnames = fields) 
+    override = {'id':[id]}
+
     with open('csvexample.csv', newline='') as myFile:  
         reader = csv.DictReader(myFile)
         for row in reader:
-            if row['id'] == id :
-                row['text'] = new_text
-
+            if row['id'] == id : 
+                # add code to override here
+                
 #look for a file in the db and print the file once found. The example is looking for file id = 123
 read_file()
