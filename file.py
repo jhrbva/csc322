@@ -7,15 +7,16 @@ class File:
     file_visibility = ['private', 'shared', 'public']
     
     # initializer
-    def __init__(self, file_id, title, text, author, date, visibility, friend_list, history, locked):
+    def __init__(self, file_id, title, author, date, visibility, friend_list, history, locked):
         self.file_id = file_id
         self.title = title
-        self.text = text
         self.author = author
         self.date = date
         self.visibility = File.file_visibility[visibility]
         self.friend_list = friend_list
+        self.currenth = len(history)
         self.history = history
+        self.text = history[len(history)-]
         self.locked = locked
 
     #instance method
@@ -34,22 +35,26 @@ class File:
     # move upward or downward in the file history
     def version_history(self, way):
         if way == 'forward':
-            self.history = self.history + 1
+            if self.currenth < len(self.history):
+                self.currenth = self.currenth + 1
         else:
-            self.history = self.history - 1
+            if self.currenth > 0:
+                self.currenth = self.currenth - 1
 
+        self.text=self.history[self.currenth-1]
     # update text in file
     def text_update(self, new_text):
         self.text = new_text
-        self.history = self.history + 1
+
+    #push text in to the history   and save it to the csv  
+    def save(self):
+        self.history.append(self.text)
+        self.currenth = self.currenth + 1
+        self.save_file()
 
     # lock and unlock file
     def lock_unlock(self, lock):
-        if lock == True:
-            self.locked = True
-            self.text_update("New text, New text, New text!")
-        else:
-            print("File is locked. Cannot make changes")
+        self.locked = not True
 
     # method to reads files from the database 
     def read_file(self):
@@ -81,15 +86,15 @@ class File:
 #testing
 #for file visibility : 0 = private, 1 = shared, 2 = public
 
-#create two files
-my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1)
-my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1)
-#add both files to the db
-my_file.save_file()
-my_file2.save_file()
-#look for a file in the db and print the file once found. The example is looking for file id = 123
-my_file2.read_file()
-#change the text in my_file
-my_file.lock_unlock(False)
-#add file with new text and updated version to db
-my_file.save_file()
+# #create two files
+# my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1)
+# my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1)
+# #add both files to the db
+# my_file.save_file()
+# my_file2.save_file()
+# #look for a file in the db and print the file once found. The example is looking for file id = 123
+# my_file2.read_file()
+# #change the text in my_file
+# my_file.lock_unlock(False)
+# #add file with new text and updated version to db
+# my_file.save_file()
