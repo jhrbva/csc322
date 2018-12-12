@@ -122,8 +122,8 @@ class File:
 # read_file()
 
 
-my_file = File(0, "idd", "guest", datetime.date.today(),'public',[''],['idsadasd','dsadsad'],False)
-my_file.save_file()
-my_file = File(1, "ok", "user", datetime.date.today(),'public',[''],['idsadasd','2134'],False)
-my_file.save_file()
+# my_file = File(0, "idd", "guest", datetime.date.today(),'public',[''],['idsadasd','dsadsad'],False)
+# my_file.save_file()
+# my_file = File(1, "ok", "user", datetime.date.today(),'public',[''],['idsadasd','2134'],False)
+# my_file.save_file()
 #print([{'fileid':f,'title':t,'author':a,'visibility':v} for f,t,a,v in my_file.read_file() ])
