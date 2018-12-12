@@ -1,6 +1,7 @@
 
 <FileScreen@Screen>:
     name: 'file'
+    guest: False
     BoxLayout:
         orientation:'vertical'
         GridLayout:
@@ -18,6 +19,7 @@
                 size_hint:.2,1
                 text: 'Create File'
                 on_press: fileChoices.current='createFile'
+                opacity: 0 if root.guest else 1
             Button:
                 size_hint:.2,1
                 text: 'edit file'
@@ -112,8 +114,10 @@
                             cols:2
                             Button:
                                 text:'invite'
+                                opacity: 0 if root.guest else 1
                             Button:
                                 text:'lock'
+                                opacity: 0 if root.guest else 1
                         GridLayout:
                             cols:1
                             Button:

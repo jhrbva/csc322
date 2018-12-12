@@ -12,11 +12,23 @@ class File:
         self.title = title
         self.author = author
         self.date = date
-        self.visibility = File.file_visibility[visibility]
+        self.visibility = visibility
         self.friend_list = friend_list
         self.currenth = len(history)
         self.history = history
-        self.text = history[len(history)-1]
+        self.text = history[(len(history)-1)]
+        self.locked = locked
+
+    def update(self, file_id, title, author, date, visibility, friend_list, history, locked):
+        self.file_id = file_id
+        self.title = title
+        self.author = author
+        self.date = date
+        self.visibility = visibility
+        self.friend_list = friend_list
+        self.currenth = len(history)
+        self.history = history
+        self.text = history[(len(history)-1)]
         self.locked = locked
 
     #instance method
@@ -55,12 +67,21 @@ class File:
     # lock and unlock file
     def lock_unlock(self, lock):
         self.locked = not True
+
+    # method to reads files from the database 
+    def load(self,id):
+        #assume the user is looking for file id 123
+        with open('csvexample.csv', newline='') as myFile:  
+            reader = csv.DictReader(myFile)
+            for row in reader:
+                if row['id'] == id:
+                    print(row)
                
     # method to save file to the db
     def save_file(self):
 
         #creating a list with items to add to database
-        myfile = [[self.file_id, self.title, self.text, self.author, self.date, self.visibility, self.friend_list, self.history]]  
+        myfile = [[self.file_id, self.title,self.author, self.date, self.visibility, self.friend_list, self.history,self.locked]]  
         
         #open the database
         database = open('csvexample.csv', 'a')  
@@ -69,36 +90,36 @@ class File:
         with database:  
             writer = csv.writer(database)
             writer.writerows(myfile)
+        
+    def read_file(self):
+        tmp = []
+        #assume the user is looking for file id 123 and version 1
+        print("I'm here")
+        with open('csvexample.csv', newline='') as myFile:  
+            reader = csv.DictReader(myFile)
+            for row in reader:
+                tmp.append([row['id'],row['title'],row['author'],row['visibility']])
+        return tmp
 
 #testing
 #for file visibility : 0 = private, 1 = shared, 2 = public
+# #create two files
+# my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
+# my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
+# #add both files to the db
+# my_file.save_file()
+# my_file2.save_file()
+# #change the text in my_file
+# #my_file.lock_unlock(False)
+# #add file with new text and updated version to db
+# #my_file.save_file()
 
-#create two files
-#my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
-#my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
-#add both files to the db
-#my_file.save_file()
-#my_file2.save_file()
-#change the text in my_file
-#my_file.lock_unlock(False)
-#add file with new text and updated version to db
-#my_file.save_file()
+# # method to reads files from the database 
 
-# method to reads files from the database 
-def read_file():
-    #assume the user is looking for file id 123 and version 1
-    id = '123'
+# #look for a file in the db and print the file once found. The example is looking for file id = 123
+# read_file()
 
-    fields = ['id','title','text','author','date','visibility','friend_list','version']
-    fileWriter = open('csvexample.csv', 'a+') 
-    writer = csv.DictWriter(fileWriter, fieldnames = fields) 
-    override = {'id':[id]}
 
-    with open('csvexample.csv', newline='') as myFile:  
-        reader = csv.DictReader(myFile)
-        for row in reader:
-            if row['id'] == id : 
-                # add code to override here
-                
-#look for a file in the db and print the file once found. The example is looking for file id = 123
-read_file()
+my_file = File(0, "", "", datetime.date.today(),'public',[],[""],False)
+
+print([{'fileid':f,'title':t,'author':a,'visibility':v} for f,t,a,v in my_file.read_file() ])
