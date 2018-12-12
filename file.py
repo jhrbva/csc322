@@ -17,18 +17,6 @@ class File:
         self.friend_list = friend_list
         self.history = history
 
-    # move upward or downward in the file history
-    def version_history(self, way):
-        if way == 'forward':
-            self.history = self.history + 1
-        else:
-            self.history = self.history - 1
-
-    # update text in file
-    def text_update(self, new_text):
-        self.text = new_text
-        self.history = self.history + 1
-
     #instance method
     def file_information(self):
         return '''
@@ -41,6 +29,18 @@ class File:
     Visibility: {}
     Shared With: {}
     Version: {}'''.format(self.file_id, self.title, self.text, self.author, self.date, self.visibility, self.friend_list, self.history)
+    
+    # move upward or downward in the file history
+    def version_history(self, way):
+        if way == 'forward':
+            self.history = self.history + 1
+        else:
+            self.history = self.history - 1
+
+    # update text in file
+    def text_update(self, new_text):
+        self.text = new_text
+        self.history = self.history + 1
 
     # method to reads files from the database 
     def read_file(self):

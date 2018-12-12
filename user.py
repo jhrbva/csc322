@@ -1,3 +1,5 @@
+import csv
+
 class User:
 
     #class attribute
@@ -22,11 +24,30 @@ class User:
     Name: {}
     Files Visited: {}'''.format(self.user_id, self.user_type, self.username, self.files_visited)
 
+     # method to user info to the db
+    def save_user(self):
+        #creating a list with items to add to database
+        user = [[self.user_id, self.user_type, self.username, self.files_visited]]  
+        
+        #open the database
+        database = open('userdatabase.csv', 'a')  
+        
+        #write list to database
+        with database:  
+            writer = csv.writer(database)
+            writer.writerows(user)
+
+    # method to reads user information from the database 
+    def find_user(self):
+        #assume that you are looking for user ID = 188
+        id = '188'
+        with open('userdatabase.csv', newline='') as myFile:  
+            reader = csv.DictReader(myFile)
+            for row in reader:
+                if row['id'] == id :
+                    print(row)
 
 #testing
-my_profile = User(1, 0, "juliaa", "password", "123, 234")
-print(my_profile.user_information())
-    
-#   question:
-#   for some reason if I make the user ID greater than a single integer, the code doesn't work.
-#   should we make the user ID a string? should we make all IDs strings?
+my_profile = User(188, 0, "juliaa", "password", "123, 234")
+my_profile.save_user()
+my_profile.find_user()
