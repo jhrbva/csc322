@@ -8,7 +8,7 @@ class User:
     # initializer
     def __init__(self, user_id,  user_type, username, password, files_visited):
         self.user_id = user_id
-        self.user_type = User.user_type[user_type]
+        self.user_type = user_type
         self.username = username
         self.password = password
         self.files_visited = files_visited
@@ -27,7 +27,7 @@ class User:
      # method to user info to the db
     def save_user(self):
         #creating a list with items to add to database
-        user = [[self.user_id, self.user_type, self.username, self.files_visited]]  
+        user = [[self.user_id, self.user_type, self.username,self.password, self.files_visited]]  
         
         #open the database
         database = open('userdatabase.csv', 'a')  
@@ -48,6 +48,11 @@ class User:
                     print(row)
 
 #testing
-my_profile = User(188, 0, "juliaa", "password", "123, 234")
-my_profile.save_user()
-my_profile.find_user()
+my_user = User(999,'guest','guest','guest',[""])
+my_user.save_user()
+my_user = User(0,'admin','admin','admin',[""])
+my_user.save_user()
+my_user = User(1,'super','super','super',[""])
+my_user.save_user()
+my_user = User(2,'ordinay','o','o',[""])
+my_user.save_user()
