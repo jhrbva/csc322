@@ -6,63 +6,51 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.widget import Widget
 import datetime
 import file 
-import membership
+import Membership
+import csv
+import user
 
-my_file = file.File(123, "My File", "Julia", datetime.date.today(),2,["Yannis",'sdsa','asdsadsa'],["This is the text in my file","2","3","4"],True)
+my_file = file.File(0, "", "", datetime.date.today(),'public',[],[""],False)
 my_file.file_information()
 
-my_mem = membership.Membership(['l','i','a','d','e','f'],['i','f','yoo','ok'],['123','34543','789'])
+my_mem = Membership.Membership(['l','i','a','d','e','f'],['i','f','yoo','ok'],['123','34543','789'],'admin')
 
 #for matching
 import re
 
 userName = 'Rong'
 
+my_user = user.User(999,'guest','guest','guest',[])
+
+
+tmp_file = file.File(0, "", "", datetime.date.today(),'public',[],[""],False)
 
 # usage for file choice
 class FileListL(GridLayout):
 
     def openFile(self,but,touch):
         if touch.is_double_tap:
-            print("hi")
+            k = self.fileid
+            print("new open")
+            print(self.fileid)
+            self.openf(k)
+    def openf(self,id):
+        with open('csvexample.csv', newline='') as myFile:  
+            reader = csv.DictReader(myFile)
+            for row in reader:
+                if row['id'] == id:
+                    my_file.update(row['id'],row['title'],row['author'],row['date'],row['visibility'],row['friend_list'],row['history'],row['locked'])
+                    print([row['id'],row['title'],row['author'],row['date'],row['visibility'],row['friend_list'],row['history'],row['locked']])
+
 
 #edit file
 
 class membership(Screen):
     def addOu(self):
         print("hi")
-
-
-
-
-class FileScreen(Screen):
-
-    def setFileListRV(self):
-        self.ids['fileListRv'].data = [{'visibility':'wtf','title':'i dont know','author':'wentom'}]
-        print(self.ids['fileListRv'].data)
-        self.ids['fileListRv'].refresh_from_data()
-
-    def initEfile(self):
-        self.ids['fileAuthor'].text = my_file.title
-        self.ids['filelock'].text = 'Lock' if my_file.lock else 'Unlock'
-        self.ids['friendList'].data = [{ 'text': item} for item in my_file.friend_list]
-        self.ids['fileVer'].text = str(my_file.history)
-        self.ids['filetext'].text = my_file.text
-
-    def saveH(self):
-        my_file.save()
-        self.ids['fileVer'].text = str(my_file.history)
-
-    def changetext(self):
-        my_file.text_update(self.ids['filetext'].text)
-        print(my_file.text)
-
-    def changeV(self,way):
-        my_file.version_history(way)
-        self.ids['filetext'].text = my_file.text
-        self.ids['fileVer'].text = str(my_file.history)
 
 
 
@@ -95,6 +83,11 @@ class MyTaboButton(Button):
         print(selectedTabo)
     pass
 
+class MyMemButton(Button):
+
+    def select(self):
+        self.selected = not self.selected
+        my_mem.addsSelected(self.text)
 
 
 class FileLabel(BoxLayout):
@@ -105,45 +98,68 @@ class FileLabel(BoxLayout):
     pass
 
 
+class Test(GridLayout):
 
 
-
-class Test(BoxLayout):
-
-    def doubleclick(self,but,touch):
-        if touch.is_double_tap:
-            print("hi")
-
-    def hi(self):
-        print("hi")
-
-    def changeUserName(self):
-        self.userNameLabel.text = userName
-
-    def populate(self):
-        self.fileList.data = [{'user':''.join(sample(ascii_lowercase, 6)),'title': '1','author': ''.join(sample(ascii_lowercase, 6))}
-                        for x in range(50)]
-    def sort(self):
-        self.rv.data = sorted(self.rv.data, key=lambda x: x['value'])
-    def clear(self):
-        self.rv.data = []
-    def insert(self, value):
-        self.rv.data.insert(0, {'value': value or 'default value'})
-    def update(self, value):
-        if self.rv.data:
-            self.rv.data[0]['value'] = value or 'default new value'
-            self.rv.refresh_from_data()
-    def remove(self):
-        if self.rv.data:
-            self.rv.data.pop(0)
+    def login(self):
+        found = False
+    #assume that you are looking for user ID = 188
+        with open('userdatabase.csv', newline='') as myFile:  
+            reader = csv.DictReader(myFile)
+            for row in reader:
+                print(row)
+                if row['username'] == self.ids['username'].text:
+                    found = True
+                    if row['pwd'] == self.ids['passwd'].text:
+                        my_user.update(row['id'],row['type'],row['username'],row['pwd'],row['filesvisited'])
+                        print("login")
+                        self.ids['mainManager'].current= 'SU'
+                        self.initglobaluser()
+                        self.setFileListRV()
+                        self.initEfile()
+                    else:
+                        self.ids['logininfo'].text = "Incorrect Password"
+        if not found:  
+            self.ids['logininfo'].text = "No such user"
 
 
-    def setRV(self):
-        self.rv1.data = [{'user':'wtf','title':'i dont know','author':'wentom'}]
-        self.rv1.refresh_from_data()
+    def initglobaluser(self):
+        self.ids['userNameLabel'].text = my_user.username
+        if my_user.user_type== 'guest':
+            self.guest = True
+
+    def setFileListRV(self):
+        self.ids['fileListRv'].data = [{'fileid':f,'title':t,'author':a,'visibility':v} for f,t,a,v in my_file.read_file() ]
+        print(self.ids['fileListRv'].data)
+        self.ids['fileListRv'].refresh_from_data()
+
+    def initEfile(self):
+        if my_user.user_type== 'guest':
+            self.guest = True
+        self.ids['fileAuthor'].text = my_file.title
+        self.ids['filelock'].text = 'Lock' if my_file.locked else 'Unlock'
+        self.ids['friendList'].data = [{ 'text': item} for item in my_file.friend_list]
+        self.ids['fileVer'].text = str(my_file.currenth)
+        self.ids['filetext'].text = my_file.text
+
+    def saveH(self):
+        my_file.save()
+        self.ids['fileVer'].text = str(my_file.currenth)
+
+    def changetext(self):
+        my_file.text_update(self.ids['filetext'].text)
+        print(my_file.text)
+
+    def changeV(self,way):
+        my_file.version_history(way)
+        self.ids['filetext'].text = my_file.text
+        self.ids['fileVer'].text = str(my_file.currenth)
 
     #file list function??
 
+    def updateoptionChoic(self,go):
+        if my_user.user_type != 'guest':
+            self.ids['optionChoic'].current = go
 
     #taboo list funciton-----------------------
     def taboInit(self):
@@ -192,7 +208,45 @@ class Test(BoxLayout):
             self.sugTaboL.data = [{ 'data': item,'selected':False} for item in suggestTaboList]
     #tabo -------------------------------
         
+    #mem function
+    def meminit(self):
+        self.ids['SUL'].data= [{ 'data': item,'selected':False} for item in my_mem.SUL]
+        self.ids['OUL'].data= [{ 'data': item,'selected':False} for item in my_mem.OU]
+        self.ids['APL'].data= [{ 'data': item,'selected':False} for item in my_mem.APL]
+    
+    def addOU(self):
+        my_mem.addOU(self.ids['addOU'].text)
+        self.ids['OUL'].data= [{ 'data': item,'selected':False} for item in my_mem.OU]
 
+    def promote(self):
+        my_mem.accept()
+        self.meminit()
+
+    def memRemove(self):
+        my_mem.remove()
+        self.meminit()
+    
+    def searchM(self):
+        tmp = self.ids['searchMem'].text
+        tmpa = []
+        tmpb = []
+        tmpc = []
+        if tmp :
+            for item in my_mem.SUL: 
+                if re.match(tmp,item):
+                    tmpa.append(item)
+            for item in my_mem.OU: 
+                if re.match(tmp,item):
+                    tmpb.append(item)
+            for item in my_mem.APL: 
+                if re.match(tmp,item):
+                    tmpc.append(item)
+            self.ids['SUL'].data= [{ 'data': item,'selected':False} for item in tmpa]
+            self.ids['OUL'].data= [{ 'data': item,'selected':False} for item in tmpb]
+            self.ids['APL'].data= [{ 'data': item,'selected':False} for item in tmpc]
+        else:
+            self.meminit()
+    #-----------------    
 
 class TestApp(App):
     def build(self):
