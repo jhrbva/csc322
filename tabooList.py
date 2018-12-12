@@ -1,64 +1,48 @@
-class Taboo_List():
 
-    # initializer (tabooList_file = "tabooList.txt", system_file = any file in the system, will use "testFile.txt" for this)
-    def __init__(self, tabooList_file, taboo_word, system_file):
-        self.tabooList_file = tabooList_file
-        self.taboo_word = taboo_word
-        self.system_file = system_file
+Authority= 'admin'
 
-    # adding a taboo word to the list method
-    def add_word(self):
-        """ I add words to the Taboo List """
-        word = raw_input('Enter the taboo word: ')
-        with open(self.tabooList_file, 'r') as file:
-            filedata = file.read()
-            # THIS CONDITIONAL IS NOT WORKING - IT JUST ADD REPEATED WORDS TO THE FILE
-            if filedata == word :
-                print('This word is already on the list')
-            else :
-                with open(self.tabooList_file, 'a') as file:
-                    file.write(word + '\n')
-        print("Your word has been added to the list")
 
-    
-    # deleting word from taboo list method
-    def remove_word(self):
-        """ I remove words to the Taboo List """
-        #word = raw_input("Enter the taboo word: ")
-        # Read in the file
-        with open(self.tabooList_file, 'r') as file :
-            filedata = file.read()
+class TabooList:
+    def __init__(self):
+        self.SuggL = ['1', '2', '3']
+        self.Taboo = ['f', 'd', 'z']
+        self.selected = ['3', 'a', '2']
 
-        # Replace the target string
-        filedata = filedata.replace(self.taboo_word, ' ')
+    def addsSelected(self,word):
+        if word not in self.selected:
+            self.selected.append(word)
+        else:
+            self.selected.remove(word)
 
-        # Write the file out again
-        with open(self.tabooList_file, 'w') as file:
-            file.write(filedata)
-        print("The word has been removed")
-        
-    #decision making
-    def add_or_delete(self):
-        """ I help decide if the user will add or delete a taboo word from the list """
-        user_action = raw_input("Type A to add the word to the list, type R to remove the word from the list: ")
+    def remove(self):
+        if Authority == 'admin':
+            newSugL = [elem for elem in self.SuggL if elem not in self.selected]
+            newTaboo = [elem for elem in self.Taboo if elem not in self.selected]
 
-        if user_action == "A":
-            self.add_word()
-        if user_action == "R":
-            self.remove_word()
+        print(newSugL)
+        print(newTaboo)
 
-    # taboo word text scanner
-    def text_scanner(self):
-        """ I help scan strings to find taboo words and delete them from text """
-        file_text = self.system_file.lower().split()
-        bad_words = self.tabooList_file.split()
+    def accept(self):
+        if Authority == 'admin':
+            newSugL = [elem for elem in self.selected if elem not in self.SuggL] + self.SuggL
+            newTaboo = [elem for elem in self.SuggL if elem not in self.Taboo] + self.Taboo
 
-        clean_list = list(set(file_text).difference(set(bad_words)))
-        clean_file = ' '.join(clean_list)
+        print(newSugL)
+        print(newTaboo)
 
-        return clean_file
 
-#testing
-tabooWord = Taboo_List("jackass shit asswhole bastard", "idiot", "hello you bastard nice to meet you jackass").text_scanner()
-#tabooWord = Taboo_List("tabooList.txt", "idiot", "testFile.txt").add_or_delete()
+
+    def update(self,newSugL,newTaboo,newSelected):
+        self.SuggL.clear()
+        self.Taboo.clear()
+        self.selected.clear()
+
+        self.SuggL = newSugL
+        self.Taboo = newTaboo
+        self.selected= newSelected
+
+
+test = TabooList()
+test.accept()
+
 

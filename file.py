@@ -7,7 +7,7 @@ class File:
     file_visibility = ['private', 'shared', 'public']
     
     # initializer
-    def __init__(self, file_id, title, author, date, visibility, friend_list, history, locked):
+    def __init__(self, file_id, title, author, date, visibility, friend_list, history, locked, text):
         self.file_id = file_id
         self.title = title
         self.author = author
@@ -103,7 +103,6 @@ class File:
 
 #testing
 #for file visibility : 0 = private, 1 = shared, 2 = public
-
 # #create two files
 # my_file = File(123, "My File", "This is the text in my file", "Julia", datetime.date.today(), 1, "Yannis", 1, False)
 # my_file2 = File(213, "My Second File", "This is the text in my second file", "Julia", datetime.date.today(), 1, "Ronno", 1, False)
